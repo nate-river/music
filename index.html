@@ -8,21 +8,23 @@
     <script src="./scripts/index.js"></script>
   </head>
   <body>
+    <audio id="audio" src=""></audio>
+
     <div class="m_player mini_version" id="divplayer" role="application" style="left: 0px;">
       <div class="m_player_dock" id="divsongframe">
         <div class="music_info" id="divsonginfo">
           <a href="" class="album_pic" title="一个人">
-            <img src="http://i.gtimg.cn/music/photo/mid_album_90/Z/R/001pmrh74IRUZR.jpg">
+            <!-- <img src="http://i.gtimg.cn/music/photo/mid_album_90/Z/R/001pmrh74IRUZR.jpg"> -->
           </a>
           <div class="music_info_main">
             <p class="music_name" title="一个人 (《前任2：备胎反击战》电影主题曲)">
-              <span>一个人 (《前任2：备胎反击战》……</span>
+              <span id="music_name">听我想听的歌</span>
               <a  class="icon_radio">电台</a>
             </p>
-            <p class="singer_name" title="张艺兴">张艺兴</p>
-            <p class="play_date" id="ptime">03:51</p>
+            <p class="singer_name" id="singer_name" title="">qq音乐</p>
+            <p class="play_date" id="ptime"></p>
             <p class="music_op" style="display:;">
-              <strong class="btn_like" title="喜欢">
+              <Strong class="btn_like" title="喜欢">
                 <span>我喜欢</span>
               </strong>
               <strong class="btn_share" title="分享">
@@ -44,13 +46,13 @@
         </div>
 
         <div class="bar_op">
-          <strong title="上一首( [ )" class="prev_bt" >
+          <strong title="上一首( [ )" class="prev_bt" id="prevbt">
             <span>上一首</span>
           </strong>
           <strong title="播放(P)" class="play_bt" id="btnplay" >
             <span>播放</span>
           </strong>
-          <strong title="下一首( ] )" class="next_bt" >
+          <strong title="下一首( ] )" class="next_bt"  id="nextbt">
             <span>下一首</span>
           </strong>
           <strong title="列表循环" class="cycle_bt" id="btnPlayway" >
@@ -59,8 +61,8 @@
           <p class="volume" title="音量调节">
             <span class="volume_icon" id="spanmute" title="点击设为静音(M)"></span>
             <span class="volume_regulate" id="spanvolume">
-              <span class="volume_bar" style="width: 62%;" id="spanvolumebar"></span>
-              <span class="volume_op" style="left: 62%;" id="spanvolumeop"></span>
+              <span class="volume_bar" style="width: 100%;" id="spanvolumebar"></span>
+              <span class="volume_op" style="left: 100%;" id="spanvolumeop"></span>
             </span>
           </p>
         </div>
@@ -82,9 +84,9 @@
 
         <p class="player_bar">
           <span class="player_bg_bar" id="spanplayer_bgbar"></span>
-          <span class="download_bar" id="downloadbar" style="width: 100%;"></span>
-          <span class="play_current_bar" style="width: 3%;" id="spanplaybar"></span>
-          <span class="progress_op" style="left: 2%;" id="spanprogress_op"></span>
+          <span class="download_bar" id="downloadbar" style="width: 0%;"></span>
+          <span class="play_current_bar" style="width: 0%;" id="spanplaybar"></span>
+          <span class="progress_op" style="left: 0%;" id="spanprogress_op"></span>
         </p>
 
         <div class="time_show" style="left: 11px; bottom: 8px; display: none;">
@@ -147,26 +149,26 @@
           <div class="play_list_main" id="divplaylist" style="display: block; left: 0px; top: 0px;">
             <!-- 播放列表_S-->
             <div class="single_list" id="divsonglist" dirid="0">
-              <ul>
-                <li mid="j10" class="">
-                  <strong class="music_name" title="Beautiful Love">Beautiful Love</strong>
-                  <strong class="singer_name" title="蔡健雅">蔡健雅</strong>
-                  <strong class="play_time">04:55</strong>
-                  <div class="list_cp">
-                    <strong class="btn_like" title="喜欢" name="" mid="004fQTu016b9W4">
-                      <span>我喜欢</span>
-                    </strong>
-                    <strong class="btn_share" title="分享">
-                      <span>分享</span>
-                    </strong>
-                    <strong class="btn_fav" title="收藏到歌单">
-                      <span>收藏</span>
-                    </strong>
-                    <strong class="btn_del" title="从列表中删除">
-                      <span>删除</span>
-                    </strong>
-                  </div>
-                </li>
+              <ul id="cc">
+                <!-- <li mid="j10" class=""> -->
+                <!--   <strong class="music_name" title="Beautiful Love">Beautiful Love</strong> -->
+                <!--   <strong class="singer_name" title="蔡健雅">蔡健雅</strong> -->
+                <!--   <strong class="play_time">04:55</strong> -->
+                <!--   <div class="list_cp"> -->
+                <!--     <strong class="btn_like" title="喜欢" name="" mid="004fQTu016b9W4"> -->
+                <!--       <span>我喜欢</span> -->
+                <!--     </strong> -->
+                <!--     <strong class="btn_share" title="分享"> -->
+                <!--       <span>分享</span> -->
+                <!--     </strong> -->
+                <!--     <strong class="btn_fav" title="收藏到歌单"> -->
+                <!--       <span>收藏</span> -->
+                <!--     </strong> -->
+                <!--     <strong class="btn_del" title="从列表中删除"> -->
+                <!--       <span>删除</span> -->
+                <!--     </strong> -->
+                <!--   </div> -->
+                <!-- </li> -->
               </ul>
             </div>
 

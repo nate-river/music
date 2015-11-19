@@ -17,10 +17,11 @@ a{
 .m_player {
     width: 563px;
     height: 115px;
-    position: fixed;
-    _position: absolute;
-    bottom: 50px;
-    left: -541px;
+    position: absolute;
+    /* _position: absolute; */
+    /* bottom: 50px; */
+    top:500px;
+    /* left: -541px; */
     box-shadow: 3px 3px 6px RGBA(0,0,0,.42);
     border-radius: 4px;
     z-index: 1;
