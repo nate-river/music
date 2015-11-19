@@ -1,0 +1,228 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <link rel="stylesheet" href="./stylesheets/index.css"/>
+    <script src="./scripts/index.js"></script>
+  </head>
+  <body>
+    <div class="m_player mini_version" id="divplayer" role="application" style="left: 0px;">
+      <div class="m_player_dock" id="divsongframe">
+        <div class="music_info" id="divsonginfo">
+          <a href="" class="album_pic" title="一个人">
+            <img src="http://i.gtimg.cn/music/photo/mid_album_90/Z/R/001pmrh74IRUZR.jpg">
+          </a>
+          <div class="music_info_main">
+            <p class="music_name" title="一个人 (《前任2：备胎反击战》电影主题曲)">
+              <span>一个人 (《前任2：备胎反击战》……</span>
+              <a  class="icon_radio">电台</a>
+            </p>
+            <p class="singer_name" title="张艺兴">张艺兴</p>
+            <p class="play_date" id="ptime">03:51</p>
+            <p class="music_op" style="display:;">
+              <strong class="btn_like" title="喜欢">
+                <span>我喜欢</span>
+              </strong>
+              <strong class="btn_share" title="分享">
+                <span>分享</span>
+              </strong>
+              <strong class="btn_kge">
+                <span>唱这首歌</span>
+                <span class="kge_QRcode">
+                  <em>
+                    <!--二维码图片在这里-->
+                  </em>
+                  <em>手机扫描二维码，唱这首歌</em>
+                  <i class="kge_QRcode_logo"></i>
+                  <i class="kge_QRcode_arrow"></i>
+                </span>
+              </strong>
+            </p>
+          </div>
+        </div>
+
+        <div class="bar_op">
+          <strong title="上一首( [ )" class="prev_bt" >
+            <span>上一首</span>
+          </strong>
+          <strong title="播放(P)" class="play_bt" id="btnplay" >
+            <span>播放</span>
+          </strong>
+          <strong title="下一首( ] )" class="next_bt" >
+            <span>下一首</span>
+          </strong>
+          <strong title="列表循环" class="cycle_bt" id="btnPlayway" >
+            <span>列表循环</span>
+          </strong>
+          <p class="volume" title="音量调节">
+            <span class="volume_icon" id="spanmute" title="点击设为静音(M)"></span>
+            <span class="volume_regulate" id="spanvolume">
+              <span class="volume_bar" style="width: 62%;" id="spanvolumebar"></span>
+              <span class="volume_op" style="left: 62%;" id="spanvolumeop"></span>
+            </span>
+          </p>
+        </div>
+
+        <p class="playbar_cp_select" id="divselect" style="display: none;">
+          <strong title="顺序播放" class="ordered_bt" >
+            <span>顺序播放</span>
+          </strong>
+          <strong title="随机播放" class="unordered_bt" >
+            <span>随机播放</span>
+          </strong>
+          <strong title="单曲循环" class="cycle_single_bt" >
+            <span>单曲循环</span>
+          </strong>
+          <strong title="列表循环" class="cycle_bt" >
+            <span>列表循环</span>
+          </strong>
+        </p>
+
+        <p class="player_bar">
+          <span class="player_bg_bar" id="spanplayer_bgbar"></span>
+          <span class="download_bar" id="downloadbar" style="width: 100%;"></span>
+          <span class="play_current_bar" style="width: 3%;" id="spanplaybar"></span>
+          <span class="progress_op" style="left: 2%;" id="spanprogress_op"></span>
+        </p>
+
+        <div class="time_show" style="left: 11px; bottom: 8px; display: none;">
+          <p id="time_show">00:14</p>
+          <span class="icon_arrow_foot">
+            <i class="foot_border"></i>
+            <i class="foot_arrow"></i>
+          </span>
+        </div>
+      </div>
+
+      <span class="active_tip" id="spanaddtips" style="display: none; top: -30px;">
+      </span>
+      <span title="展开播放列表" class="open_list" id="spansongnum1" style="display: block;">
+        <span>20</span>
+      </span>
+      <span title="显示歌词(L)" class="btn_lyrics_disabled" id="btnlrc">歌词(L)</span>
+      <button type="button" class="folded_bt" title="点击收起" id="btnfold">
+        <span>点击收起/展开</span>
+      </button>
+
+      <!--play list-->
+      <div class="play_list_frame" id="divplayframe" style="display: block; opacity: 1;">
+        <div class="play_list_title">
+          <!-- 单曲FM修改 -->
+          <ul id="tab_container" style="width:270px;">
+            <li id="playlist_tab" class="current">
+              <a href="javascript:;">播放列表</a><i></i></li>
+            <li id="fm_tab" style="display:none" class="">
+              <a href="javascript:;">单曲电台列表</a><i></i></li>
+          </ul>
+          <span id="clear_list" class="clear_list" style="display: block;">清空列表</span>
+          <strong title="收起播放列表" class="close_list" id="btnclose"></strong>
+        </div>
+
+        <div class="play_list" id="divlistmain">
+          <!--列表为空提示_S-->
+          <!-- <div class="play_list_point" id="divnulllist" style="display:none;"> -->
+          <!--   <div> -->
+          <!--     <h4>您当前还未添加任何歌曲</h4> -->
+          <!--     <p>您可以：</p> -->
+          <!--     <p>在<a href="/y/static/index.html?pgv_ref=qqmusic.y.player" target="contentFrame">首页</a>选择试听我们推荐的歌曲。</p> -->
+          <!--     <p>在<a href="/y/static/singer/index/all_hot_1.html?pgv_ref=qqmusic.y.player" target="contentFrame">乐库</a>中查找您想听的歌曲。</p> -->
+          <!--   </div> -->
+          <!-- </div> -->
+          <!-- 单曲FM修改 空列表-->
+          <!-- <div class="play_list_point" id="divnullFMlist" style="display:none;"> -->
+          <!--   <div> -->
+          <!--     <h4>哎呀，这首歌和其他歌曲还不熟</h4> -->
+          <!--     <p>你可以：</p> -->
+          <!--     <p>换 另一首歌曲<span style="color:#9ae40a"> 重新发起单曲电台</span>。 -->
+          <!--     </p><p>什么是单曲电台？</p> -->
+          <!--     <p>当你听到一首喜欢的歌曲，我们会针对这首歌曲，为你生成一批<span style="color:#9ae40a"> 你可能也喜欢的歌曲列表</span>, -->
+          <!--       并且根据你的反馈，不断优化——所以听得越多，为你推荐得越准噢！</p> -->
+          <!--     <p></p> -->
+          <!--   </div> -->
+          <!-- </div> -->
+          <!--列表为空提示_E-->
+
+          <div class="play_list_main" id="divplaylist" style="display: block; left: 0px; top: 0px;">
+            <!-- 播放列表_S-->
+            <div class="single_list" id="divsonglist" dirid="0">
+              <ul>
+                <li mid="j10" class="">
+                  <strong class="music_name" title="Beautiful Love">Beautiful Love</strong>
+                  <strong class="singer_name" title="蔡健雅">蔡健雅</strong>
+                  <strong class="play_time">04:55</strong>
+                  <div class="list_cp">
+                    <strong class="btn_like" title="喜欢" name="" mid="004fQTu016b9W4">
+                      <span>我喜欢</span>
+                    </strong>
+                    <strong class="btn_share" title="分享">
+                      <span>分享</span>
+                    </strong>
+                    <strong class="btn_fav" title="收藏到歌单">
+                      <span>收藏</span>
+                    </strong>
+                    <strong class="btn_del" title="从列表中删除">
+                      <span>删除</span>
+                    </strong>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div id="divalbumlist" style="display:none;">
+            </div>
+          </div>
+
+          <div class="play_list_scroll" style="top:0px">
+            <span id="spanbar" class="play_list_scrolling" style="height: 212px; left: 3px; top: 0px;"></span>
+          </div>
+
+          <!--单曲电台列表_S-->
+          <!-- <div class="single_radio_cont" id="FM_container" style="display:none;"> -->
+          <!--   <div class="single_radio_top"> -->
+          <!--     <\!-- a href="javascript:;" class="change_link"><i class="icon_change"></i>换一批</a -\-> -->
+          <!--     <p>您正在收听以“<strong id="FM_songname">好久不见-陈奕迅</strong>”生成的单曲电台。</p> -->
+          <!--   </div> -->
+          <!--   <div class="single_radio_list"> -->
+          <!--     <ul id="single_radio_list" style="margin-left:-150px;"> -->
+          <!--       <li class="first"></li> -->
+          <!--     </ul> -->
+          <!--   </div> -->
+          <!--   <div class="single_radio_info" id="single_radio_info"> -->
+          <!--     <a href="javascript:;" class="single_radio_like" title="喜欢"></a> -->
+          <!--     <a href="javascript:;" class="single_radio_delete" title="删除"></a> -->
+          <!--     <h3></h3> -->
+          <!--     <p></p> -->
+          <!--   </div> -->
+          <!-- </div> -->
+          <!--单曲电台列表_E-->
+        </div>
+      </div>
+
+      <!--歌词内容-->
+      <div class="y_player_lyrics" id="player_lyrics_pannel" style="display: none;">
+        <div class="lyrics_text" id="qrc_ctn">
+          <p id="line_null">
+            <span class="current">&nbsp;</span>
+          </p>
+          <p id="line_0">
+            <span class="">一个人 - 张艺兴</span>
+          </p>
+          <p id="line_1"><span>词：张艺兴</span></p>
+          <p id="line_2"><span class="">曲：张艺兴</span></p>
+          <p id="line_3"><span class="current">......</span></p>
+          <p id="line_4"><span>没有人在意我</span></p>
+          <p id="line_5"><span>我在一个人的角落</span></p>
+          <p id="line_6"><span>等待中受折磨</span></p>
+          <p id="line_7"><span>不会有人再关心我</span></p>
+         </div>
+        <div class="lyrics_bg"></div>
+        <span class="close_lyrics" id="closelrcpannel"></span>
+      </div>
+      <div class="single_radio_tip" id="single_radio_tip" style="display:none;">
+        <a href="javascript:;" class="close_tips"></a>
+      </div>
+    </div>
+  </body>
+</html>
