@@ -15,10 +15,29 @@ window.onload = function(){
   ];
   //----------------------------------------------
   var currentIndex = 0;
-  var playlists;
-  var currentMusic = null;
   var currentList = null;
+
   //----------------------------------------------
+  audio.onloadstart = function(e){
+    console.log(this.buffered);
+  };
+  audio.ondurationchange = function(e){
+    console.log(this.buffered);
+  };
+  audio.onloadedmetadata = function(e){
+    console.log(this.buffered);
+  };
+  audio.onloadeddata = function(e){
+    console.log(this.buffered);
+  };
+  audio.onprogress = function(e){
+    console.log(this.buffered);
+  };
+  audio.oncanplaytrough = function(e){
+    console.log(this.buffered);
+  };
+
+
   audio.oncanplay = function(){
     audio.play();
   };
@@ -29,8 +48,13 @@ window.onload = function(){
     btnplay.setAttribute('class','play_bt');
   };
   audio.onvolumechange = function(){
-    spanvolumebar.style.width = (this.volume*100).toFixed(2) + '%';
-    spanvolumeop.style.left   = (this.volume*100).toFixed(2) + '%';
+    spanvolumebar.style.width = this.volume*100 + '%';
+    spanvolumeop.style.left   = this.volume*100 + '%';
+    if(this.volume == 0){
+      spanmute.className = 'volume_mute';
+    }else{
+      spanmute.className = 'volume_icon';
+    }
   };
   audio.onended = function(){
     nextsong();
@@ -38,28 +62,23 @@ window.onload = function(){
 
   //播放进度处理
   var handleprogress  = function(){
-    var w  = this.currentTime/this.duration;
-    var progress = (w*100).toFixed(2) + '%';
-    spanprogress_op.style.left = progress;
-    spanplaybar.style.width = progress;
+    var w  = (this.currentTime/this.duration)*100 + '%';
+    spanprogress_op.style.left = w;
+    spanplaybar.style.width = w;
   };
   audio.onseeked = handleprogress;
   audio.ontimeupdate = handleprogress;
 
   //歌曲改变处理
   var handlesongchange = function(index){
-    if(currentList){
-      currentList.setAttribute('class','li');
-    }
+    if(currentList){currentList.setAttribute('class','li');}
     playlists[index].setAttribute('class','li play_current');
     currentList = playlists[index];
-    currentMusic = database[index];
-    music_name.innerHTML  = currentMusic.name;
-    singer_name.innerHTML = currentMusic.artisan;
-    ptime.innerHTML       = currentMusic.duration;
-    audio.src             =  currentMusic.src;
+    music_name.innerHTML  = database[index].name;
+    singer_name.innerHTML = database[index].artisan;
+    ptime.innerHTML       = database[index].duration;
+    audio.src             = database[index].src;
   };
-  // audio.onload
 
   //列表点击
   divsonglist.onclick  = function(e){
@@ -72,9 +91,7 @@ window.onload = function(){
   //播放暂停
   var playpause = function(){
     var src  = audio.getAttribute('src');
-    if(!src){
-      handlesongchange(0);
-    }
+    if(!src){handlesongchange(0);}
     if(audio.paused){audio.play();}else{audio.pause();}
   };
   btnplay.onclick = playpause;
@@ -97,11 +114,8 @@ window.onload = function(){
 
   //点击设置音量
   var setvolume = function(e){
-    console.log(e.layerX);
-    var pc = e.layerX/this.offsetWidth;
-    audio.volume = pc;
+    audio.volume = e.layerX/this.offsetWidth;
   };
-
   spanvolume.onclick = setvolume;
   spanvolumeop.onclick = function(e){e.stopPropagation();};
   spanprogress_op.onclick = function(e){e.stopPropagation();};
@@ -110,29 +124,25 @@ window.onload = function(){
     var prevolume;
     return function(){
       if( this.className.indexOf('icon') != -1 ){
-        this.className = 'volume_mute';
         prevolume = audio.volume; audio.volume = 0;
       }else{
-        this.className = 'volume_icon'; audio.volume = prevolume;
+        audio.volume = prevolume;
       }
     };
   })();
 
   //点击设置播放时间
   var setcurrenttime =  function(e){
-    var pc = e.layerX/this.offsetWidth;
-    audio.currentTime = audio.duration*pc;
+    audio.currentIndex = audio.duration*e.layerX/this.offsetWidth;
   };
   spanplayer_bgbar.parentElement.onclick  = setcurrenttime;
 
   //创建列表
-  var createlist = function(){
+  var playlists = (function(){
     for(var i = 0; i<database.length; i++){
       var el = document.createElement('li');
-      el.setAttribute('src',database[i].src);
       el.setAttribute('index',i);
       el.className = 'li';
-      divsonglist.firstElementChild.appendChild(el);
       el.innerHTML = '<strong class="music_name" title="'+database[i].name+'">'+database[i].name+'</strong> ' +
         ' <strong class="singer_name" title="'+database[i].artisan+'">'+database[i].artisan+'</strong>' +
         ' <strong class="play_time">'+database[i].duration+'</strong> ' +
@@ -144,8 +154,9 @@ window.onload = function(){
         '  <strong class="btn_fav" title="收藏到歌单"> <span>收藏</span> </strong>' +
         '  <strong class="btn_del" title="从列表中删除"> <span>删除</span> </strong> ' +
         '  </div> ';
+      divsonglist.firstElementChild.appendChild(el);
     }
     playlists = document.getElementsByClassName('li');
-  };
-  createlist();
+    return playlists;
+  })();
 };
