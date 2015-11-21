@@ -6,10 +6,13 @@ body{
     font-family: Arial,Tahoma,"hiragino sans gb",Helvetica;
     margin:0;
 }
-ul,li{
+p,ul,li{
     list-style:none;
     margin:0;
     padding:0;
+}
+button{
+    outline:none;
 }
 a{
     text-decoration:none;
@@ -17,11 +20,10 @@ a{
 .m_player {
     width: 563px;
     height: 115px;
-    position: absolute;
-    /* _position: absolute; */
-    /* bottom: 50px; */
-    top:500px;
-    /* left: -541px; */
+    position: fixed;
+    _position: absolute;
+    bottom: 20px;
+    left: -541px;
     box-shadow: 3px 3px 6px RGBA(0,0,0,.42);
     border-radius: 4px;
     z-index: 1;
@@ -454,8 +456,7 @@ a{
     cursor: pointer
 }
 .m_player .download_bar {
-    /*background: #2c4838;*/
-    background: #b36d13;
+    background: #2c4838;
     font-size: 0;
     height: 4px;
     position: absolute;
