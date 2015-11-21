@@ -19,22 +19,25 @@ window.onload = function(){
 
   //----------------------------------------------
   audio.onloadstart = function(e){
-    console.log(this.buffered);
+    console.log(this.buffered,'loadstart');
+  };
+  audio.onload = function(e){
+    console.log(this.buffered,'load');
   };
   audio.ondurationchange = function(e){
-    console.log(this.buffered);
+    console.log(this.buffered,'durationchange');
   };
   audio.onloadedmetadata = function(e){
-    console.log(this.buffered);
+    console.log(this.buffered,'loadedmetadata');
   };
   audio.onloadeddata = function(e){
-    console.log(this.buffered);
+    console.log(this.buffered,'loadeddata');
   };
   audio.onprogress = function(e){
-    console.log(this.buffered);
+    console.log(this.buffered,'progress');
   };
-  audio.oncanplaytrough = function(e){
-    console.log(this.buffered);
+  audio.oncanplaythrough = function(e){
+    console.log(this.buffered,'canplaythrough');
   };
 
 
