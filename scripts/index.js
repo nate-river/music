@@ -83,8 +83,10 @@ window.onload = function(){
   //播放进度处理
   var handleprogress  = function(){
     var w  = (this.currentTime/this.duration)*100 + '%';
-    spanprogress_op.style.left = w;
     spanplaybar.style.width = w;
+    var w2 = spanplayer_bgbar.offsetWidth*(this.currentTime/this.duration) - 3 + 'px';
+    spanprogress_op.style.left = w2;
+
   };
   audio.onseeked = handleprogress;
   audio.ontimeupdate = handleprogress;
