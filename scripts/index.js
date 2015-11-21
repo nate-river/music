@@ -18,24 +18,32 @@ window.onload = function(){
   var currentList = null;
 
   //----------------------------------------------
+
+  // audio.onload = function(e){
+  //   console.log(this.buffered,'load');
+  // };
+  // audio.ondurationchange = function(e){
+  //   console.log(this.buffered,'durationchange');
+    
+  // };
+  // audio.onloadedmetadata = function(e){
+  //   console.log(this.buffered,'loadedmetadata');
+  // };
+  // audio.onloadeddata = function(e){
+  //   console.log(this.buffered,'loadeddata');
+  // };
   audio.onloadstart = function(e){
-    console.log(this.buffered,'loadstart');
+    downloadbar.style.width = '0%';
   };
-  audio.onload = function(e){
-    console.log(this.buffered,'load');
+  audio.onprogress = function(){
+    console.log('onprogress',this.buffered);
+    if(this.buffered.length>0 && this.buffered){
+      var width = this.buffered.end(this.buffered.length-1)/this.duration*100 + '%';
+      downloadbar.style.width = width;
+    } 
   };
-  audio.ondurationchange = function(e){
-    console.log(this.buffered,'durationchange');
-  };
-  audio.onloadedmetadata = function(e){
-    console.log(this.buffered,'loadedmetadata');
-  };
-  audio.onloadeddata = function(e){
-    console.log(this.buffered,'loadeddata');
-  };
-  audio.onprogress = function(e){
-    downloadbar.style.width = (this.buffered.end(0)/this.duration)*100 + '%';
-  };
+ 
+
   audio.oncanplaythrough = function(e){
     console.log(this.buffered,'canplaythrough');
   };
