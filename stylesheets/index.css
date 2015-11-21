@@ -454,7 +454,8 @@ a{
     cursor: pointer
 }
 .m_player .download_bar {
-    background: #2c4838;
+    /*background: #2c4838;*/
+    background: #b36d13;
     font-size: 0;
     height: 4px;
     position: absolute;
