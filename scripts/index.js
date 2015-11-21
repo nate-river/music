@@ -11,7 +11,7 @@ window.onload = function(){
     {name:'战斗9',artisan:'网易',duration:'00:58',src:'./midea/9.MP3'},
     {name:'战斗10',artisan:'网易',duration:'01:29',src:'./midea/10.MP3'},
     {name:'战斗11',artisan:'网易',duration:'01:48',src:'./midea/11.MP3'},
-    {name:'战斗12',artisan:'网易',duration:'02:26',src:'./midea/12.MP3'}`
+    {name:'战斗12',artisan:'网易',duration:'02:26',src:'./midea/12.MP3'}
   ];
   //----------------------------------------------
   var currentIndex = 0;
