@@ -34,7 +34,7 @@ window.onload = function(){
     console.log(this.buffered,'loadeddata');
   };
   audio.onprogress = function(e){
-    console.log(this.buffered,'progress');
+    downloadbar.style.width = (this.buffered.end(0)/this.duration)*100 + '%';
   };
   audio.oncanplaythrough = function(e){
     console.log(this.buffered,'canplaythrough');
