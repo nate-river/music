@@ -5,12 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title></title>
     <link rel="stylesheet" href="./stylesheets/index.css"/>
+    <script src="./scripts/jquery.js"></script>
     <script src="./scripts/index.js"></script>
   </head>
   <body id="html">
     <audio id="audio" src=""></audio>
 
-    <div class="m_player mini_version" id="divplayer" role="application" style="left: 0px;">
+    <div class="m_player" id="divplayer" role="application" style="left: 0px;">
       <div class="m_player_dock" id="divsongframe">
         <div class="music_info" id="divsonginfo">
           <a href="" class="album_pic" title="一个人">
@@ -23,24 +24,24 @@
             </p>
             <p class="singer_name" id="singer_name" title="">qq音乐</p>
             <p class="play_date" id="ptime"></p>
-            <p class="music_op" style="display:;">
+            <p class="music_op" id="musicop" style="display:none;">
               <Strong class="btn_like" title="喜欢">
                 <span>我喜欢</span>
               </strong>
               <strong class="btn_share" title="分享">
                 <span>分享</span>
               </strong>
-              <strong class="btn_kge">
-                <span>唱这首歌</span>
-                <span class="kge_QRcode">
-                  <em>
-                    <!--二维码图片在这里-->
-                  </em>
-                  <em>手机扫描二维码，唱这首歌</em>
-                  <i class="kge_QRcode_logo"></i>
-                  <i class="kge_QRcode_arrow"></i>
-                </span>
-              </strong>
+              <!-- <strong class="btn_kge"> -->
+              <!--   <span>唱这首歌</span> -->
+              <!--   <span class="kge_QRcode"> -->
+              <!--     <em> -->
+              <!--       <\!--二维码图片在这里-\-> -->
+              <!--     </em> -->
+              <!--     <em>手机扫描二维码，唱这首歌</em> -->
+              <!--     <i class="kge_QRcode_logo"></i> -->
+              <!--     <i class="kge_QRcode_arrow"></i> -->
+              <!--   </span> -->
+              <!-- </strong> -->
             </p>
           </div>
         </div>
@@ -176,8 +177,8 @@
             </div>
           </div>
 
-          <div class="play_list_scroll" style="top:0px">
-            <span id="spanbar" class="play_list_scrolling" style="height: 212px; left: 3px; top: 0px;"></span>
+          <div class="play_list_scroll" style="top:0px;display:none;">
+            <span id="spanbar" class="play_list_scrolling" style="left: 3px; top: 0px;"></span>
           </div>
 
           <!--单曲电台列表_S-->
