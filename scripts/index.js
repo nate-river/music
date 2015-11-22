@@ -115,8 +115,20 @@ window.onload = function(){
     audio.volume = e.layerX/this.offsetWidth;
   };
   spanvolume.onclick = setvolume;
+  //拖动设置音量
+  spanvolumeop.onmousedown = function(e){
+    e.preventDefault();
+    document.onmousemove = function(e){
+      var v = (e.clientX - spanvolume.getBoundingClientRect().left)/spanvolume.offsetWidth;
+      if( v >= 0 && v<=1 ){audio.volume = v;}
+    };
+    document.onmouseup = function(){
+      document.onmousemove = null;
+      document.onmouseup = null;
+    };
+  };
   spanvolumeop.onclick = function(e){e.stopPropagation();};
-  spanprogress_op.onclick = function(e){e.stopPropagation();};
+
   spanmute.onclick = (function(){
     var prevolume;
     return function(){
@@ -130,6 +142,21 @@ window.onload = function(){
     audio.currentTime = audio.duration*e.layerX/this.offsetWidth;
   };
   spanplayer_bgbar.parentElement.onclick  = setcurrenttime;
+  spanprogress_op.onclick = function(e){e.stopPropagation();};
+  //拖动设置播放时间
+  spanprogress_op.onmousedown = function(e){
+    e.preventDefault();
+    audio.pause();
+    document.onmousemove = function(e){
+      var t = e.clientX /spanplayer_bgbar.offsetWidth;
+      if( t >= 0 && t<=1 ){ audio.currentTime = audio.duration*t;}
+    };
+    document.onmouseup = function(){
+      audio.play();
+      document.onmousemove = null;
+      document.onmouseup = null;
+    };
+  };
   //列表点击播放
   divsonglist.onclick  = function(e){
     if(e.target == this) return;
