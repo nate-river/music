@@ -37,6 +37,7 @@ window.onload = function(){
     spanprogress_op.style.left = '0%';
     spanplaybar.style.width = '0%';
   };
+
   audio.onprogress = function(){
     if(this.buffered.length == 0){
       downloadbar.style.width = '100%';
@@ -47,16 +48,20 @@ window.onload = function(){
       downloadbar.style.width = width;
     }
   };
+
   audio.oncanplay = function(){
     audio.play();
   };
+
   audio.onplay = function(){
     btnplay.setAttribute('class','pause_bt');
     musicop.style.display = 'block';
   };
+
   audio.onpause = function(){
     btnplay.setAttribute('class','play_bt');
   };
+
   audio.onvolumechange = function(){
     spanvolumebar.style.width = this.volume*100 + '%';
     spanvolumeop.style.left   = this.volume*100 + '%';
@@ -66,6 +71,7 @@ window.onload = function(){
       spanmute.className = 'volume_icon';
     }
   };
+
   audio.onended = function(){
     if( playbt == 'cycle_bt'){
       nextsong();
@@ -80,6 +86,7 @@ window.onload = function(){
       handlesongchange(rd);
     }
   };
+
   //播放进度处理
   var handleprogress  = function(){
     var w  = (this.currentTime/this.duration)*100 + '%';
@@ -90,6 +97,7 @@ window.onload = function(){
   };
   audio.onseeked = handleprogress;
   audio.ontimeupdate = handleprogress;
+
   //歌曲改变处理
   var handlesongchange = (function(){
     var currentList = null;
@@ -103,6 +111,7 @@ window.onload = function(){
       audio.src             = database[index].src;
     };
   })();
+
   //播放暂停
   var playpause = function(){
     var src  = audio.getAttribute('src');
@@ -110,11 +119,21 @@ window.onload = function(){
     if(audio.paused){audio.play();}else{audio.pause();}
   };
   btnplay.onclick = playpause;
+
   //点击设置音量
   var setvolume = function(e){
     audio.volume = e.layerX/this.offsetWidth;
   };
   spanvolume.onclick = setvolume;
+  spanmute.onclick = (function(){
+    var prevolume;
+    return function(){
+      if( this.className.indexOf('icon') != -1 ){
+        prevolume = audio.volume; audio.volume = 0;
+      }else{audio.volume = prevolume;}
+    };
+  })();
+
   //拖动设置音量
   spanvolumeop.onmousedown = function(e){
     e.preventDefault();
@@ -129,20 +148,14 @@ window.onload = function(){
   };
   spanvolumeop.onclick = function(e){e.stopPropagation();};
 
-  spanmute.onclick = (function(){
-    var prevolume;
-    return function(){
-      if( this.className.indexOf('icon') != -1 ){
-        prevolume = audio.volume; audio.volume = 0;
-      }else{audio.volume = prevolume;}
-    };
-  })();
+
   //点击设置播放时间
   var setcurrenttime =  function(e){
     audio.currentTime = audio.duration*e.layerX/this.offsetWidth;
   };
   spanplayer_bgbar.parentElement.onclick  = setcurrenttime;
   spanprogress_op.onclick = function(e){e.stopPropagation();};
+
   //拖动设置播放时间
   spanprogress_op.onmousedown = function(e){
     e.preventDefault();
@@ -157,6 +170,7 @@ window.onload = function(){
       document.onmouseup = null;
     };
   };
+
   //列表点击播放
   divsonglist.onclick  = function(e){
     if(e.target == this) return;
@@ -164,30 +178,31 @@ window.onload = function(){
     currentIndex = Number(el.getAttribute('index'));
     handlesongchange(currentIndex);
   };
+
   //下一首
   var nextsong = function(){
     if(playbt == 'unordered_bt'){
       var rd = Math.floor( Math.random()*database.length );
-      handlesongchange(rd);
-      return;
+      handlesongchange(rd); return;
     }
     currentIndex  += 1;
     currentIndex   = (currentIndex == database.length)?0:currentIndex;
     handlesongchange(currentIndex);
   };
   nextbt.onclick  = nextsong;
+
   //上一首
   var prevsong = function(){
     if(playbt == 'unordered_bt'){
       var rd = Math.floor( Math.random()*database.length );
-      handlesongchange(rd);
-      return;
+      handlesongchange(rd); return;
     }
     currentIndex  -= 1;
     currentIndex   = (currentIndex == -1)?database.length-1:currentIndex;
     handlesongchange(currentIndex);
   };
   prevbt.onclick  = prevsong;
+
   //创建列表
   var playlists = (function(){
     for(var i = 0; i<database.length; i++){
@@ -211,6 +226,8 @@ window.onload = function(){
     playlists = document.getElementsByClassName('li');
     return playlists;
   })();
+
+  //点击设置播放模式
   for(var i = 0; i<divselect.children.length; i++){
     divselect.children[i].onclick = function(){
       this.parentElement.style.display  = 'none';
@@ -218,6 +235,30 @@ window.onload = function(){
       playbt = this.className;
     };
   }
+
+
+  //鼠标hover显示当前位置时长
+  var formatetime = function(s){
+    if(isNaN(s)) return '--:--';
+    s = Math.round(s);
+    var mi = parseInt(s/60); var se = s%60;
+    mi  = mi<10?'0'+mi:mi;
+    se  = se<10?'0'+se:se;
+    return  mi + ':' + se;
+  };
+  spanplayer_bgbar.parentElement.onmouseover = function(e){
+    time_show.parentElement.style.display = 'block';
+    time_show.parentElement.style.left = e.clientX - 0.5*time_show.offsetWidth + 'px';
+    time_show.innerHTML =  formatetime(audio.duration* (e.clientX/this.offsetWidth));
+  };
+  spanplayer_bgbar.parentElement.onmouseout = function(){
+    time_show.parentElement.style.display = 'none';
+  };
+  spanplayer_bgbar.parentElement.onmousemove = function(e){
+    time_show.parentElement.style.left = e.clientX - 0.5*time_show.offsetWidth + 'px';
+    time_show.innerHTML =  formatetime(audio.duration* (e.clientX/this.offsetWidth));
+  };
+
 
   /////////////////////////////处理界面效果部分
   btnPlayway.onclick = function(){
