@@ -1,0 +1,23 @@
+{
+  "name": "qqmusic",
+  "version": "1.0.0",
+  "description": "qqmusic",
+  "main": "use-node-generate-databse.js",
+  "scripts": {
+    "test": "node use-node-generate-databse.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nate-river/qqmusic.git"
+  },
+  "keywords": [
+    "music",
+    "local"
+  ],
+  "author": "myl",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nate-river/qqmusic/issues"
+  },
+  "homepage": "https://github.com/nate-river/qqmusic"
+}

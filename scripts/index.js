@@ -1,18 +1,4 @@
 window.onload = function(){
-  var database = [
-    {name:'战斗1',artisan:'网易',duration:'01:14',src:'./midea/1.MP3'},
-    {name:'战斗2',artisan:'网易',duration:'01:28',src:'./midea/2.MP3'},
-    {name:'战斗3',artisan:'网易',duration:'01:34',src:'./midea/3.MP3'},
-    {name:'战斗4',artisan:'网易',duration:'01:25',src:'./midea/4.MP3'},
-    {name:'战斗5',artisan:'网易',duration:'01:03',src:'./midea/5.MP3'},
-    {name:'战斗6',artisan:'网易',duration:'01:17',src:'./midea/6.MP3'},
-    {name:'战斗7',artisan:'网易',duration:'01:34',src:'./midea/7.MP3'},
-    {name:'战斗8',artisan:'网易',duration:'02:03',src:'./midea/8.MP3'},
-    {name:'战斗9',artisan:'网易',duration:'00:58',src:'./midea/9.MP3'},
-    {name:'战斗10',artisan:'网易',duration:'01:29',src:'./midea/10.MP3'},
-    {name:'战斗11',artisan:'网易',duration:'01:48',src:'./midea/11.MP3'},
-    {name:'战斗12',artisan:'网易',duration:'02:26',src:'./midea/12.MP3'}
-  ];
   //----------------------------------------------
   var currentIndex = 0;
   var playbt = 'cycle_bt';

@@ -713,7 +713,8 @@ a{
 }
 .m_player .play_list {
     height: 455px;
-    overflow: hidden;
+    /* overflow: hidden; */
+    overflow:scroll;
     position: relative;
     border-top: solid 1px #262626;
     z-index: 1
