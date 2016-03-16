@@ -42,3 +42,8 @@ Network Trash Folder
 Temporary Items
 .apdisk
 *.tern-port
+/database
+
+*.mp3
+
+*.MP3
