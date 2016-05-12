@@ -1,0 +1,129 @@
+//外圈尺寸
+$max-size : 300px;
+
+//内圈距离外圈
+$off-top-bounder: 30px;
+
+//距离上一个圈
+$off-top-inner:10px;
+
+//按钮距离最后一个圈
+$button-off : 6px;
+
+//按钮尺寸
+$button-size: 15px;
+
+
+$theme-color : #4e4e4e;
+
+//三角线长度
+$line-width : 9px;
+
+
+
+%ab-auto{
+  position: absolute;
+  margin:auto;
+}
+
+@mixin position($top:0, $left:0, $right:0, $bottom:0){
+  @extend %ab-auto;
+  top:$top;
+  left:$left;
+  right:$right;
+  bottom:$bottom;
+}
+
+@mixin setrotate($direction){
+  $off : 4px;
+  .line:nth-child(1){
+    @include position($off,0,0,null) ;
+    @if( $direction == 'next' ){
+      transform:rotateZ(45deg);
+    }@else{
+      transform:rotateZ(-45deg);
+    }
+  }
+  .line:nth-child(2){
+    @include position(null,0,0,$off) ;
+    @if( $direction == 'next' ){
+      transform:rotateZ(-45deg);
+    }@else{
+      transform:rotateZ(45deg);
+    }
+  }
+}
+
+%circle{
+  border-radius: 50%;
+}
+
+
+#beo{
+  @include position;
+  @extend %circle;
+  width: $max-size;
+  height: $max-size;
+  border: 1px solid $theme-color;
+  z-index: 1;
+
+  .bounder{
+    @include position($off-top-bounder,0,0,null);
+    @extend %circle;
+    width: $max-size - 2*$off-top-bounder;
+    height: $max-size - 2*$off-top-bounder;
+    border:1px solid $theme-color;
+    z-index: 2;
+  }
+  .inner-bounder{
+    @include position($off-top-inner,0,0,null);
+    @extend %circle;
+    width: $max-size - 2*$off-top-bounder - 2*$off-top-inner;
+    height:  $max-size - 2*$off-top-bounder - 2*$off-top-inner;
+    border:1px solid lighten($theme-color,30);
+    z-index: 3;
+  }
+}
+
+%button-size{
+  width: $button-size;
+  height: $button-size;
+}
+
+#beo {
+  div{
+    z-index: 4;
+  }
+  .play{
+    @include position($button-off,0,0,null);
+    @extend %circle;
+    @extend %button-size;
+    border:1px solid $theme-color;
+    box-sizing: border-box;
+  }
+  .silence{
+    @include position(null,0,0,$button-off);
+    @extend %circle;
+    @extend %button-size;
+    background: lighten($theme-color,40);
+  }
+
+  .line {
+    width: $line-width;
+    border-bottom:1px solid black;
+  }
+
+  .next{
+    @include position(0,null,$button-off,0);
+    @extend %circle;
+    @extend %button-size;
+    @include setrotate('next');
+  }
+  .previous{
+    @include position(0,$button-off,null,0);
+    @extend %circle;
+    @extend %button-size;
+    @include setrotate('previous');
+  }
+
+}

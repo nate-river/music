@@ -1,0 +1,108 @@
+#beo, #beo .bounder, #beo .inner-bounder, #beo .play, #beo .silence, #beo .next, #beo .next .line:nth-child(1), #beo .next .line:nth-child(2), #beo .previous, #beo .previous .line:nth-child(1), #beo .previous .line:nth-child(2) {
+  position: absolute;
+  margin: auto;
+}
+
+#beo, #beo .bounder, #beo .inner-bounder, #beo .play, #beo .silence, #beo .next, #beo .previous {
+  border-radius: 50%;
+}
+
+#beo {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 300px;
+  height: 300px;
+  border: 1px solid #4e4e4e;
+  z-index: 1;
+}
+
+#beo .bounder {
+  top: 30px;
+  left: 0;
+  right: 0;
+  width: 240px;
+  height: 240px;
+  border: 1px solid #4e4e4e;
+  z-index: 2;
+}
+
+#beo .inner-bounder {
+  top: 10px;
+  left: 0;
+  right: 0;
+  width: 220px;
+  height: 220px;
+  border: 1px solid #9b9b9b;
+  z-index: 3;
+}
+
+#beo .play, #beo .silence, #beo .next, #beo .previous {
+  width: 15px;
+  height: 15px;
+}
+
+#beo div {
+  z-index: 4;
+}
+
+#beo .play {
+  top: 6px;
+  left: 0;
+  right: 0;
+  border: 1px solid #4e4e4e;
+  box-sizing: border-box;
+}
+
+#beo .silence {
+  left: 0;
+  right: 0;
+  bottom: 6px;
+  background: #b4b4b4;
+}
+
+#beo .line {
+  width: 9px;
+  border-bottom: 1px solid black;
+}
+
+#beo .next {
+  top: 0;
+  right: 6px;
+  bottom: 0;
+}
+
+#beo .next .line:nth-child(1) {
+  top: 4px;
+  left: 0;
+  right: 0;
+  transform: rotateZ(45deg);
+}
+
+#beo .next .line:nth-child(2) {
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  transform: rotateZ(-45deg);
+}
+
+#beo .previous {
+  top: 0;
+  left: 6px;
+  bottom: 0;
+}
+
+#beo .previous .line:nth-child(1) {
+  top: 4px;
+  left: 0;
+  right: 0;
+  transform: rotateZ(-45deg);
+}
+
+#beo .previous .line:nth-child(2) {
+  left: 0;
+  right: 0;
+  bottom: 4px;
+  transform: rotateZ(45deg);
+}
