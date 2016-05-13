@@ -1,5 +1,5 @@
 # web音乐播放器解决方案
-如果制作一个运行在浏览器中的本地音乐播放器?
+如何制作一个运行在浏览器中的本地音乐播放器?
 本方案提供一种简单的可扩展思路.
 
 ##  获取本地音乐文件的数据信息
@@ -45,7 +45,7 @@ var database = [
 引入 `dabase.js` `player.js`;
 
 ```html
-  <script src="./scripts/.js"></script>
+  <script src="./scripts/.database.js"></script>
   <script src="./scripts/player.js"></script>
 ```
 
@@ -58,9 +58,6 @@ player.js封装了一些常用的接口
 // 1. 页面中audio标签的标识  '.audio' '#audio'
 // 2. 播放列表   
 var  player = new Player('#audio', database);
-
-// 属性:
-
 
 
 // 方法:
@@ -95,6 +92,9 @@ player.previous();
 player.setState();
 
 //事件
+
 原生audio事件的封装
 
 ```
+
+其他使用详情参见示例;
