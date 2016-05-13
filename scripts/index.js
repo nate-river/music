@@ -8,12 +8,11 @@ $('.play').addEventListener('click',function () {
   beo.togglePlay();
 });
 $('.silence').addEventListener('click',function () {
-  beo.silence();
+  beo.toggleVolume();
 });
 $('.next').addEventListener('click',function () {
   beo.next();
 });
-
 $('.previous').addEventListener('click',function () {
   beo.previous();
 });

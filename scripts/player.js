@@ -63,6 +63,13 @@ class MusicPlayer{
   restoreVolume(){
     this.audio.volume = localStorage['music_player_previous_volume'];
   }
+  toggleVolume(){
+    if( this.audio.volume === 0 ){
+      this.restoreVolume();
+    }else{
+      this.silence()
+    }
+  }
 
   // 播放控制 和 播放模式设置
 
@@ -172,4 +179,3 @@ class MusicPlayer{
     });
   }
 }
-
