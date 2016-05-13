@@ -1,121 +1,175 @@
 class MusicPlayer{
+
   constructor(selector, playlist){
-    this.el = document.querySelector(selector);
-    this.playlist = playlist||[];
-    var index = localStorage['index.beo.com'];
+
+    this.audio = document.querySelector(selector);
+
+    this.playlist = playlist || [];
+
+    // ordered unordered  cycle_single  cycle
+    this.state =  'ordered';
+
+    var index = localStorage['music_player_index'];
+
     if( index ){
       this.index = Number(index);
     }else{
       this.index = 0;
     }
+
     this.init();
   }
 
   init(){
-    this.el.addEventListener('loadstart',function(){
-      console.log('song change, start load');
-    })
-    this.el.addEventListener('progress', function(){
-      console.log('loading');
-      if(this.buffered.length == 0){
-        return;
+    var self = this;
+    self.play();
+    this.oncanplay(function () {
+      self.audio.play();
+    });
+    this.onended(function () {
+      if( self.state === 'cycle_single' ){
+        self.play();
+      }else{
+        self.next();
       }
-      if(this.buffered.length > 0 && this.buffered){
-        var percentage = this.buffered.end(this.buffered.length - 1) / this.duration * 100;
-        console.log(percentage);
-      }
-    })
-    this.el.addEventListener('canplay', function () {
-      console.log('now this song can play');
-      this.play();
     });
   }
 
+  // 对歌曲列表操作
   addSong(song){
     this.playlist.push(song);
+    return this;
   }
   removeSong(index){
-    this.playlist = this.playlist.slice(0,index).join( this.playlist.slice(index + 1 ) );
+    this.playlist = this.playlist.slice(0, index).concat(this.playlist.slice(index + 1 ));
+    return this;
   }
   getSong(index){
     return this.playlist[index];
   }
 
+
+  // 对播放器音量的操作
+  getVolume(){
+    return this.audio.volume;
+  }
+  setVolume(volume){
+    return this.audio.volume = volume;
+  }
+  silence(){
+    localStorage['music_player_previous_volume'] = this.getVolume();
+    this.audio.volume = 0;
+  }
+  restoreVolume(){
+    this.audio.volume = localStorage['music_player_previous_volume'];
+  }
+
+  // 播放控制 和 播放模式设置
+
   play(){
-    this.el.src = this.playlist[this.index].filename;
-    localStorage['index.beo.com'] = this.index;
+    this.audio.src = this.playlist[this.index].filename;
+    localStorage['music_player_index'] = this.index;
   }
+
   pause(){
-    this.el.pause();
+    this.audio.pause();
   }
+
   togglePlay(){
-    if( this.el.paused ){
-      this.el.play();
+    if( this.audio.paused ){
+      this.audio.play();
     }else{
-      this.el.pause();
+      this.audio.pause();
     }
   }
 
-  getVolume(){
-    return this.el.volume;
-  }
-  setVolume(volume){
-    return this.el.volume = volume;
-  }
-  silence(){
-    localStorage['previousVolume.beo.com'] = this.getVolume();
-    this.el.volume = 0;
-  }
-  restoreVolume(){
-    this.el.volume = localStorage['previousVolume.beo.com'];
-  }
-
   next(){
-    this.index += 1;
-    if( this.index >= this.playlist.length ){
-      this.index = 0;
+    if(this.state === 'ordered'){
+      this.index += 1;
+      if( this.index >= this.playlist.length ){
+        this.index = this.playlist.length - 1;
+      }
+    }else if(this.state === 'unordered'){
+
+      this.index = Math.floor( Math.random()*this.playlist.length );
+
+    }else if(this.state === 'cycle' || this.state === 'cycle_single'){
+      this.index += 1;
+      if( this.index >= this.playlist.length ){
+        this.index = 0;
+      }
     }
     this.play();
   }
   previous(){
-    this.index -= 1;
-    if( this.index < 0 ){
-      this.index = this.playlist.length - 1;
+    if(this.state === 'ordered'){
+      this.index -= 1;
+      if( this.index < 0 ){
+        this.index = 0;
+      }
+    }else if(this.state === 'unordered'){
+
+      this.index = Math.floor( Math.random()*this.playlist.length );
+
+    }else if(this.state === 'cycle' || this.state === 'cycle_single'){
+      this.index -= 1;
+      if( this.index < 0 ){
+        this.index = this.playlist.length - 1;
+      }
     }
     this.play();
   }
 
+  playSong(index){
+    this.index = index;
+    this.play();
+  }
+  setState(state){
+    this.state =  state;
+  }
+
+
+  ///对audio 原生事件的包装  方便解决兼容性问题
+
+  onloadstart(callback){
+    this.audio.addEventListener('loadstart', callback);
+  }
+  oncanplay(callback){
+    this.audio.addEventListener('canplay', callback);
+  }
   onplay(callback){
-    this.el.addEventListener('play', callback);
+    this.audio.addEventListener('play', callback);
   }
   onpause(callback){
-    this.el.addEventListener('pause', callback);
+    this.audio.addEventListener('pause', callback);
   }
   onvolumechange(callback){
-    this.el.addEventListener('volumechange', callback);
+    this.audio.addEventListener('volumechange', callback);
   }
   onended(callback){
-    this.el.addEventListener('ended', callback );
+    this.audio.addEventListener('ended', callback );
   }
   onseek(callback){
-    this.el.addEventListener('seek', callback);
+    this.audio.addEventListener('seek', callback);
   }
+
+  // 特别关照事件
   ontimeupdate(callback){
-    this.el.addEventListener('timeupdate', callback );
+    this.audio.addEventListener('timeupdate', function (e){
+      var percentage  = this.currentTime/this.duration;
+      callback.call(this, percentage, e);
+    });
   }
   onprogress(callback){
-    this.el.addEventListener('progress',callback);
+    this.audio.addEventListener('progress',function (e) {
+      if(this.buffered.length == 0){
+        return;
+      }
+      if(this.buffered.length > 0 && this.buffered){
+        var percentage = this.buffered.end(this.buffered.length - 1) / this.duration;
+        callback.call(this, percentage, e);
+      }
+    });
   }
-
 }
 
-var beo = new MusicPlayer('#audio', database);
-
-/* 调用例子 */
-function $(selector){
-  return document.querySelector(selector);
-}
-$('.play').addEventListener('click',beo.play.bind(beo));
-$('.silence').addEventListener('click',beo.silence.bind(beo));
-$('.next').addEventListener('click',beo.next.bind(beo));
-$('.previous').addEventListener('click',beo.previous.bind(beo));

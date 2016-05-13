@@ -44,4 +44,5 @@ Temporary Items
 *.tern-port
 
 database
+.idea
 node_modules

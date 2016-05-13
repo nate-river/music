@@ -91,16 +91,10 @@ player.getVolume();
 player.next();
 // 根据播放模式播放列表中的下一首
 player.previous();
-
+// 设置播放模式 顺序 随机 循环 单曲循环
 player.setState();
 
-
 //事件
-
-player.onended();
-
-player.onplaying();
-
-player.ondownloading();
+原生audio事件的封装
 
 ```
