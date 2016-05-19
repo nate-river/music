@@ -91,10 +91,10 @@ window.onload = function(){
       if(currentList){currentList.setAttribute('class','li');}
       playlists[index].setAttribute('class','li play_current');
       currentList = playlists[index];
-      music_name.innerHTML  = database[index].name;
-      singer_name.innerHTML = database[index].artisan;
-      ptime.innerHTML       = database[index].duration;
-      audio.src             = database[index].src;
+      music_name.innerHTML  = database[index].tags.title;
+      singer_name.innerHTML = database[index].tags.artist;
+      ptime.innerHTML       = formatetime(database[index].duration);
+      audio.src             = database[index].filename;
     };
   })();
 
@@ -195,9 +195,9 @@ window.onload = function(){
       var el = document.createElement('li');
       el.setAttribute('index',i);
       el.className = 'li';
-      el.innerHTML = '<strong class="music_name" title="'+database[i].name+'">'+database[i].name+'</strong> ' +
-        ' <strong class="singer_name" title="'+database[i].artisan+'">'+database[i].artisan+'</strong>' +
-        ' <strong class="play_time">'+database[i].duration+'</strong> ' +
+      el.innerHTML = '<strong class="music_name" title="'+database[i].tags.title+'">'+database[i].tags.title+'</strong> ' +
+        ' <strong class="singer_name" title="'+database[i].tags.artist+'">'+database[i].tags.artist+'</strong>' +
+        ' <strong class="play_time">'+formatetime(database[i].duration)+'</strong> ' +
         ' <div class="list_cp"> ' +
         ' <strong class="btn_like" title="喜欢" name="" mid="004fQTu016b9W4">'+
         '   <span>我喜欢</span> ' +
@@ -221,10 +221,13 @@ window.onload = function(){
       playbt = this.className;
     };
   }
+  btnPlayway.onclick = function(){
+    divselect.style.display = 'block';
+  };
 
 
   //鼠标hover显示当前位置时长
-  var formatetime = function(s){
+  function formatetime(s){
     if(isNaN(s)) return '--:--';
     s = Math.round(s);
     var mi = parseInt(s/60); var se = s%60;
@@ -246,66 +249,4 @@ window.onload = function(){
   };
 
 
-  /////////////////////////////处理界面效果部分
-  btnPlayway.onclick = function(){
-    divselect.style.display = 'block';
-  };
-  spansongnum1.onclick  = function(){
-    if(divplayframe.style.display == 'block'){
-      $('#divplayframe').animate({opacity:0},200,function(){
-        divplayframe.style.display = 'none';
-      });
-    }else{
-      divplayframe.style.display = 'block';
-      $('#divplayframe').animate({opacity:1},200);
-    }
-  };
-  btnclose.onclick = function(){
-    $('#divplayframe').animate({opacity:0},200,function(){
-      divplayframe.style.display = 'none';
-    });
-  };
-  var kaiguan = true;
-  btnfold.onclick = function(){
-    divplayframe.style.display = 'none';
-    if(kaiguan){
-      $('#divplayer').animate({left:'-540px'},200); kaiguan = false;
-      divplayer.className = 'm_player m_player_folded';
-    }else{
-      $('#divplayer').animate({left:'0px'},200); kaiguan = true;
-      divplayer.className = 'm_player';
-    }
-  };
-
-
-
-  //自定义滚动条
-  var onheightchange = function(){
-    var pc =  divlistmain.offsetHeight / (24*database.length);
-    if(pc>1){
-      spanbar.parentElement.style.display = 'none';
-    }else{
-      spanbar.parentElement.style.display = 'block';
-      spanbar.style.height = spanbar.parentElement.offsetHeight*pc + 'px';
-    }
-  };
-  // var spanbartop = 0;
-  // var playlisttop = 0;
-  // divlistmain.onmousewheel  = function(e){
-  //   console.log(e.wheelDelta);
-  //   if(e.wheelDelta > 0){
-  //     //向下滚动
-  //     spanbartop += 5;
-  //     spanbartop = Math.min(spanbartop,spanbar.parentElement.offsetHeight-spanbar.offsetHeight);
-
-  //     spanbar.style.top  = spanbartop + 'px';
-  //     playlisttop -= 5;
-  //     playlisttop = Math.max(playlisttop,divlistmain.offsetHeight - 24*database.length);
-  //     console.log(playlisttop,divlistmain.offsetHeight - 24*database.length);
-  //     divplaylist.style.top = playlisttop + 'px';
-  //   }else{
-  //     //向上滚动
-  //   }
-  // };
-  onheightchange();
 };
